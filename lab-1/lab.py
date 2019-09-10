@@ -14,25 +14,20 @@ theta = np.zeros(2)
 iterations = 1500
 alpha = 0.01
 
-def cost_function(h, y):
-    sum = 0
-    for i in range(m):
-        sum += (h[i] - y[i])**2
-    return sum/(2*m)
+def cost_function(X, y, theta):
+    h = X.dot(theta)
+    return np.sum(np.square(h-y))/(2*m)
 
-
-h = [0.0 for x in range(m)]
-print(cost_function(h, y))
-
-for i in range(iterations):
-    for i in range(m):
-        h[i] = theta.dot(X[i])
-    
-    temp0 = theta[0] - (alpha/m) * cost_function(h, y)
-    temp1 = theta[0] - (alpha/m) * cost_function(h, y)
+print(cost_function(X, y, theta))
+j_history = np.array([0 for _ in range(iterations)], dtype=np.float)
+for i in range(iterations):    
+    temp0 = theta[0] - (alpha/m) * np.sum((X.dot(theta) - y) * np.array(X[:, 0]))
+    temp1 = theta[1] - (alpha/m) * np.sum((X.dot(theta) - y) * np.array(X[:, 1]))
     theta[0] = temp0
     theta[1] = temp1
+    j_history[i] = cost_function(X, y, theta)
 
+# print(j_history[len(j_history)-1])
 print(theta)
 
 
